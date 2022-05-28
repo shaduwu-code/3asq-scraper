@@ -13,7 +13,7 @@ import sys
 from progress.spinner import MoonSpinner
 # parse chapter page
 from bs4 import BeautifulSoup as bs
-#import os to get current working directory
+# import os to get current working directory
 import os
 # import progressbar
 from alive_progress import alive_bar
@@ -36,11 +36,11 @@ class Asq():
         self.manga_name = manga_name
         # A dictionary for chapters names and links
         self.chapters_links = {}
-        #sets of links (not strings but sets)
+        # sets of links (not strings but sets)
         self.links_sets = []
-        #links without filtering
+        # links without filtering
         self.links = []
-        #only chapters links
+        # only chapters links
         self.clinks = []
         # Initiate html session to load javascript
         self.session = HTMLSession()
@@ -57,7 +57,7 @@ class Asq():
         r.html.render(sleep=1, keep_page=True, scrolldown=2, timeout=100)
         # elements that contain links
         links_containers = r.html.find('a')
-        #loop for getting links from elements
+        # loop for getting links from elements
         for link in links_containers:
             self.links_sets.append(link.absolute_links)
         # getting links strings from links sets
@@ -124,7 +124,7 @@ class Asq():
         # default setting
         with alive_bar(len(panels), stats=False, bar='bubbles', title=f'Downloading: {chapter_title}') as bar:
             for panel in panels:
-                #get current directory to make the path
+                # get current directory to make the path
                 cdir = os.getcwd()
                 path = f'{cdir}/{manga_name}/{chapter_title}'
                 # variable to verify if the path exists
@@ -132,7 +132,7 @@ class Asq():
                 # if the path exists, check if the panel exists
                 if directory_Exist:
                     # variable to verify if the panel exists
-                    #panel_exists = os.path.exists(
+                    # panel_exists = os.path.exists(
                     #    f'{path}/{panel.split("/")[-1]}')
                     # # if panel exists, skip it
                     # if panel_exists:
@@ -152,11 +152,12 @@ class Asq():
                     r = self.session.get(panel)
                     with open(f'{path}/{panel.split("/")[-1]}', 'wb') as f:
                         f.write(r.content)
-                    
+
                     time.sleep(0.03)
                     bar()
         # resetting panels for next chapter (avoid duplicates)
         self.imgs = []
+
 
 # -------------------------------------------------------
 # Initialize Asq object
@@ -204,4 +205,3 @@ except(ValueError):
 except(KeyboardInterrupt):
     print("Script has been terminated by user")
     sys.exit()
-
