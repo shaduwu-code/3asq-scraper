@@ -1,9 +1,9 @@
 # 3asq Berserk Scraper
 # ---------------
 # Needed for scraping javascript's ajax
-from turtle import title
+#from turtle import title
 from requests_html import HTMLSession
-from socket import timeout
+#from socket import timeout
 # Wait
 import time
 # For parsing arguments
