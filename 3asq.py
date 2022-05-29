@@ -64,12 +64,19 @@ class Asq():
         for link_set in self.links_sets:
             for link in link_set:
                 self.links.append(link)
-        # getting only chapters links and removing main manga link
+        # getting only chapters links 
         for link in self.links:
-            if url == link:
-                self.links.remove(link)
-            elif url in link:
+            if url.split("/")[-1] in link:
                 self.clinks.append(link)
+        #removing main manga link from chapters links
+        if url == self.clinks[0]:
+            self.clinks.remove(self.clinks[0])
+        elif url == self.clinks[0]+'/':
+            self.clinks.remove(self.clinks[0])
+        elif url == self.clinks[0].split("/")[0] + "//" + "www."+self.clinks[0].split("/")[2]+"/"+self.clinks[0].split("/")[3]+"/"+self.clinks[0].split("/")[4] + "/":
+            self.clinks.remove(self.clinks[0])
+        elif url == self.clinks[0].split("/")[0] + "//" + "www."+self.clinks[0].split("/")[2]+"/"+self.clinks[0].split("/")[3]+"/"+self.clinks[0].split("/")[4]:
+            self.clinks.remove(self.clinks[0])
         return self.clinks
 # get chapters data
 
@@ -168,9 +175,9 @@ links = asq.get_links()
 chapters = asq.get_chapters(links=links).keys()
 # sort chapters in website order
 chapters_order = asq.get_chapters_order(chapters_links=chapters)
-# print all available chapters and their numbers (official order-website order)
+# print all available chapters and their numbers (website order-official order)
 print(
-    ','.join(str(f'{chapter}-{chapters_order[chapter]}') for chapter in chapters))
+    ','.join(str(f'({chapters_order[chapter]}){chapter}') for chapter in chapters))
 # get chapter number from user
 chapter_number = input("Enter chapter number: ")
 try:
