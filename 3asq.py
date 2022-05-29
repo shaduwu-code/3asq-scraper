@@ -64,11 +64,11 @@ class Asq():
         for link_set in self.links_sets:
             for link in link_set:
                 self.links.append(link)
-        # getting only chapters links 
+        # getting only chapters links
         for link in self.links:
             if url.split("/")[-1] in link:
                 self.clinks.append(link)
-        #removing main manga link from chapters links
+        # removing main manga link from chapters links
         if url == self.clinks[0]:
             self.clinks.remove(self.clinks[0])
         elif url == self.clinks[0]+'/':
